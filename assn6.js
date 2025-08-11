@@ -1,4 +1,4 @@
-mapboxgl.accessToken = 'Ypk.eyJ1Ijoic2g0NzcxIiwiYSI6ImNtZGNpNXV1czE2MXMyaW9meWozNGh1YmEifQ.THlvSfp7C1bY2ivHS5b6hA';
+mapboxgl.accessToken = 'pk.eyJ1Ijoic2g0NzcxIiwiYSI6ImNtZGNpNXV1czE2MXMyaW9meWozNGh1YmEifQ.THlvSfp7C1bY2ivHS5b6hA';
 
 // Initialize the map
 const map = new mapboxgl.Map({
@@ -302,34 +302,66 @@ map.on('load', () => {
 
         // Create rich popup content with coffee-themed styling
         const popupHTML = `
-            <div style="
-                font-family: 'Inter', sans-serif; 
-                min-width: 250px; 
-                max-width: 350px;
-                background: linear-gradient(135deg, #2c1810 0%, #8B4513 100%);
-                color: #f5deb3;
-                border-radius: 8px;
-                padding: 0;
-                margin: 0;
-            ">
-                <div style="
-                    background: #d4af37; 
-                    color: #2c1810; 
-                    padding: 12px; 
-                    border-radius: 8px 8px 0 0;
-                    margin-bottom: 12px;
-                ">
-                    <h3 style="margin: 0; font-size: 18px; font-weight: bold;">
-                        ☕ ${properties.name}
-                    </h3>
-                    <p style="margin: 4px 0 0 0; font-size: 14px; opacity: 0.8;">
-                        ${properties.country}
-                    </p>
+            <div style="font-family: Arial, sans-serif; min-width: 250px; max-width: 350px;">
+                <div style="background: #d4af37; color: #2c1810; padding: 12px; border-radius: 8px 8px 0 0; margin-bottom: 12px;">
+                    <h3 style="margin: 0; font-size: 18px; font-weight: bold;">☕ ${properties.name}</h3>
+                    <p style="margin: 4px 0 0 0; font-size: 14px; opacity: 0.8;">${properties.country}</p>
                 </div>
                 
                 <div style="padding: 0 12px 12px 12px;">
                     <div style="margin-bottom: 8px;">
                         <strong style="color: #d4af37;">Production Level:</strong> 
-                        <span style="
-                            background: ${getCircleColor(properties.production)};
-                            color: white;
+                        <span style="background: ${getCircleColor(properties.production)}; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px;">
+                            ${properties.production}
+                        </span>
+                    </div>
+                    
+                    <div style="margin-bottom: 8px;">
+                        <strong style="color: #d4af37;">Altitude:</strong> ${properties.altitude}
+                    </div>
+                    
+                    <div style="margin-bottom: 8px;">
+                        <strong style="color: #d4af37;">Varieties:</strong> ${properties.varieties}
+                    </div>
+                    
+                    <div style="margin-bottom: 8px;">
+                        <strong style="color: #d4af37;">Flavor Notes:</strong> ${properties.flavorNotes}
+                    </div>
+                    
+                    <div style="margin-bottom: 8px;">
+                        <strong style="color: #d4af37;">Processing:</strong> ${properties.processingMethod}
+                    </div>
+                    
+                    <div style="margin-bottom: 8px;">
+                        <strong style="color: #d4af37;">Harvest Season:</strong> ${properties.harvestSeason}
+                    </div>
+                    
+                    <div style="margin-bottom: 0;">
+                        <strong style="color: #d4af37;">Cultural Significance:</strong> ${properties.culturalSignificance}
+                    </div>
+                </div>
+            </div>
+        `;
+
+        new mapboxgl.Popup({
+            offset: 25,
+            closeButton: true,
+            closeOnClick: true
+        })
+        .setLngLat(coordinates)
+        .setHTML(popupHTML)
+        .addTo(map);
+    });
+});
+
+// Add navigation controls
+map.addControl(new mapboxgl.NavigationControl(), 'top-right');
+
+// Add fullscreen control
+map.addControl(new mapboxgl.FullscreenControl(), 'top-right');
+
+// Add scale control
+map.addControl(new mapboxgl.ScaleControl({
+    maxWidth: 100,
+    unit: 'metric'
+}), 'bottom-right');
